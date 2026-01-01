@@ -3,8 +3,16 @@ const router = express.Router();
 
 
 // Routes
-router.get('', (req,res) => {
-    res.render('index');
+router.get('', (req, res) => {
+    const locals = {
+        title: "Blogify Website",
+        description: "Blogify is your way to tech Blogs"
+    }
+    res.render('index', { locals });
+});
+
+router.get('/about', (req, res) => {
+    res.render('about');
 });
 
 
