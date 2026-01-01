@@ -261,9 +261,11 @@ img {
     display: inline-block;
     margin: 40px;
 }
+
 .pagination:hover {
-   color: var(--black);
+    color: var(--black);
 }
+
 /* 
 .article {
     white-space: pre-wrap;
