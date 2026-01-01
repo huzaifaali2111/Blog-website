@@ -11,7 +11,7 @@ app.use(express.static('public'));
 
 // Template Engine
 app.use(expressLayout);
-app.set('layout','.layouts/main');
+app.set('layout','layouts/main');
 app.set('view engine', 'ejs');
 
 
