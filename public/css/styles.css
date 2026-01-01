@@ -17,7 +17,9 @@ body {
     /* background-image: url(/images/bg_img.jpg); */
     margin: 0px;
 }
-
+a{
+    color: var(--black);
+}
 input[type=text],
 input[type=email],
 input[type=password],
@@ -142,19 +144,19 @@ img {
     display: flex;
     gap: 1rem;
     font-weight: 600;
-    padding: 0px;
     list-style-type: none;
+   
 }
 
 .header_nav ul a {
     padding: 10px;
     text-decoration: none;
 }
-
-.header_nav ul a:hover {
-    text-decoration: underline;
-}
-
 .header_nav ul a:active {
-    color: var(--gray);
+    color: var(--red);
+}
+.active{
+    background-color: var(--black);
+    border-radius: 10px;
+    color: white;
 }

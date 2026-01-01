@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-
+router.use((req, res, next) => {
+    res.locals.currentPath = req.path;
+    next();
+});
 // Routes
 router.get('', (req, res) => {
     const locals = {
@@ -18,6 +21,7 @@ router.get('/about', (req, res) => {
 router.get('/contact', (req, res) => {
     res.render('contact');
 });
+
 
 
 module.exports = router;

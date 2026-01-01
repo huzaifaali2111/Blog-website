@@ -3,16 +3,17 @@
     <nav class="header_nav">
         <ul>
             <li>
-                <a href="/" class="">Home</a>
+                <a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Home</a>
             </li>
             <li>
-                <a href="/about" class="">About</a>
+                <a href="/about" class="<%= currentPath === '/about' ? 'active' : '' %>">About</a>
             </li>
             <li>
-                <a href="/contact" class="">Contact</a>
+                <a href="/contact" class="<%= currentPath === '/contact' ? 'active' : '' %>">Contact</a>
             </li>
         </ul>
     </nav>
+
     <div class="header_Button">
         <button class="searchBtn" aria-expanded="false">
             search

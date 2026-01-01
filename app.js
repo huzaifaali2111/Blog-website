@@ -4,7 +4,7 @@ const expressLayout = require('express-ejs-layouts');
 
 // Express APP
 const app = express();
-const PORT = 8080 || process.env.PORT;
+const PORT = process.env.PORT || 8080 ;
 
 // Public Folders
 app.use(express.static('public'));
