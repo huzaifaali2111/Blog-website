@@ -17,9 +17,24 @@ body {
     /* background-image: url(/images/bg_img.jpg); */
     margin: 0px;
 }
-a{
+
+/* Global settings  */
+a {
     color: var(--black);
 }
+
+h1 {
+    font-size: x-large;
+}
+
+h2 {
+    font-size: large;
+}
+
+h3 {
+    font-size: medium;
+}
+
 input[type=text],
 input[type=email],
 input[type=password],
@@ -145,18 +160,116 @@ img {
     gap: 1rem;
     font-weight: 600;
     list-style-type: none;
-   
+
 }
 
 .header_nav ul a {
     padding: 10px;
     text-decoration: none;
 }
+
 .header_nav ul a:active {
     color: var(--red);
 }
-.active{
+
+.active {
     background-color: var(--black);
     border-radius: 10px;
     color: white;
+}
+
+/* Home page Author */
+.author {
+    padding: 10px 0;
+    text-align: center;
+}
+
+.author_heading {
+    margin-top: 10px;
+    margin-top: 5px;
+}
+
+.author_body {
+    font-size: var(--font-size-base);
+}
+
+/* Homepage Article list  */
+.article_heading {
+    margin-top: 2rem;
+}
+
+.article-ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: clamp(1.13rem, calc(1.08rem + 0.22vw), 1.25rem);
+    display: flex;
+    flex-direction: column;
+}
+
+.article-list_date {
+    color: var(--gray);
+    width: 260px;
+    font-size: var(--font-size-base);
+}
+
+.article-ul li a {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    margin: 18px 0;
+}
+
+@media only screen and (min-width:768px) {
+    .article-ul li a {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .article-list_date {
+        text-align: right;
+    }
+}
+
+.article-ul li {
+    font-size: 24px;
+    cursor: pointer;
+    transition: filter 0.1s;
+}
+
+.article-ul li:not(:Last-child) {
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.article-ul li:hover {
+    filter: none;
+}
+
+.article-ul:hover li {
+    filter: blur(1px)
+}
+
+.article-ul:hover li:hover {
+    filter: none
+}
+
+.pagination {
+    font-size: 1rem;
+    color: var(--gray);
+    text-decoration: none;
+    display: inline-block;
+    margin: 40px;
+}
+.pagination:hover {
+   color: var(--black);
+}
+/* 
+.article {
+    white-space: pre-wrap;
+} */
+
+.footer {
+    margin: 4rem;
+    text-align: center;
 }
