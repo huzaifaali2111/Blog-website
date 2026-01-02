@@ -1,22 +1,84 @@
 const express = require("express");
 const router = express.Router();
-const post = require('../models/post');
+const Post = require('../models/post');
 
 
-// Passing Current Path 
+// Passing Current Path in Veriable
 router.use((req, res, next) => {
     res.locals.currentPath = req.path;
     next();
 });
 
 
-// Home by Get Method
-router.get('', (req, res) => {
-    const locals = {
-        title: "Blogify Website",
-        description: "Blogify is your way to tech Blogs"
+// Home getting Data from Database And Also working Pagination 
+router.get('', async (req, res) => {
+    try {
+        const locals = {
+            title: "Blogify website",
+            description: "Simple Blog created with NodeJs, Express & MongoDb."
+        }
+
+        let perPage = 5;
+        let page = req.query.page || 1;
+
+        const data = await Post.aggregate([{ $sort: { createdAt: -1 } }])
+            .skip(perPage * page - perPage)
+            .limit(perPage)
+            .exec();
+
+        // Count is deprecated - please use countDocuments
+        // const count = await Post.count();
+        const count = await Post.countDocuments({});
+        const nextPage = parseInt(page) + 1;
+        const hasNextPage = nextPage <= Math.ceil(count / perPage);
+
+        res.render('index', {
+            locals,
+            data,
+            current: page,
+            nextPage: hasNextPage ? nextPage : null,
+            currentRoute: '/'
+        });
+
+    } catch (error) {
+        console.log(error);
     }
-    res.render('index', { locals });
+
+});
+
+
+
+// Home getting Data from Database 
+// router.get('', async (req, res) => {
+//     const locals = {
+//         title: "Blogify Website",
+//         description: "Blogify is your way to tech Blogs"
+//     }
+//     try {
+//         const posts = await post.find();
+//         res.render('index', { locals, posts });
+//     }
+//     catch (e) {
+//         console.log(e)
+//     }
+// });
+
+
+
+// Single Post Page By ID 
+router.get('/post/:id', async (req, res) => {
+    try {
+        let slug = req.params.id;
+        const posts = await Post.findById({_id:slug});
+        const locals = {
+            title: posts.title,
+            description: "Blogify is your way to tech Blogs"
+        }
+        res.render('post', { locals, posts });
+    }
+    catch (e) {
+        console.log(e)
+    }
 });
 
 
@@ -37,7 +99,7 @@ module.exports = router;
 
 
 
-// Have insert Some Dumy Blogs in Database Using this Function. 
+// Have insert Some Dumy Blogs in Database Using this Function.
 
 
 // function insertPostData() {
