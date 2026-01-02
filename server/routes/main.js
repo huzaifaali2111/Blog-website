@@ -31,7 +31,7 @@ router.get('', async (req, res) => {
         const count = await Post.countDocuments({});
         const nextPage = parseInt(page) + 1;
         const hasNextPage = nextPage <= Math.ceil(count / perPage);
-
+        console.log(hasNextPage)
         res.render('index', {
             locals,
             data,
@@ -69,7 +69,7 @@ router.get('', async (req, res) => {
 router.get('/post/:id', async (req, res) => {
     try {
         let slug = req.params.id;
-        const posts = await Post.findById({_id:slug});
+        const posts = await Post.findById({ _id: slug });
         const locals = {
             title: posts.title,
             description: "Blogify is your way to tech Blogs"
@@ -85,7 +85,7 @@ router.get('/post/:id', async (req, res) => {
 
 
 router.get('/about', (req, res) => {
-    res.render('about');
+    res.render('about', { status: req.query.status });
 });
 
 router.get('/contact', (req, res) => {
