@@ -17,6 +17,10 @@ body {
     /* background-image: url(/images/bg_img.jpg); */
     margin: 0px;
 }
+::selection{
+    background-color: black;
+    color: white;
+}
 
 /* Global settings  */
 a {
@@ -247,7 +251,7 @@ img {
 }
 
 .article-ul:hover li {
-    filter: blur(1px)
+    filter: blur(0.7px)
 }
 
 .article-ul:hover li:hover {
