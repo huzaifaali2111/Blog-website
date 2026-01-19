@@ -46,7 +46,6 @@ router.get('', async (req, res) => {
 });
 
 
-
 // Home getting Data from Database 
 // router.get('', async (req, res) => {
 //     const locals = {
