@@ -25,6 +25,7 @@ app.set('view engine', 'ejs');
 
 //Routes File Listening
 app.use('/',require('./server/routes/main'));
+app.use('/',require('./server/routes/admin.js'));
 
 
 // App Listen
