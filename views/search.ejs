@@ -2,8 +2,8 @@
     <h1 class="author_heading">Search Result</h1>
 </div>
 <section class="articles">
-    
-       <ul class="article-ul">
+
+    <ul class="article-ul">
         <% data.forEach(post=> { %>
             <li>
                 <a href="/post/<%= post._id %>">
@@ -15,7 +15,9 @@
                     </span>
                 </a>
             </li>
-            <% }) %>
+            <% }); %>
     </ul>
-
+    <% if (data.length===0) { %>
+        <p>No match found for " <%= searchTerm %> ".</p>
+        <% } %>
 </section>
