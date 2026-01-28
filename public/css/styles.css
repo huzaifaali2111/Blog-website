@@ -281,8 +281,8 @@ img {
 
 /* Home page searchBar */
 .searchBar {
-    visibility: hidden;
-    transform: translateY(-100px);
+    /* visibility: hidden;
+    transform: translateY(-100px); */
     background-color: var(--black);
     padding: 4px 0;
     position: absolute;
