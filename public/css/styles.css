@@ -281,18 +281,35 @@ img {
 
 /* Home page searchBar */
 .searchBar {
-    /* visibility: hidden;
-    transform: translateY(-100px); */
+    visibility: hidden;
+    transform: translateY(-100px);
     background-color: var(--black);
-    padding: 4px 0;
+    padding: 4px 2px;
     position: absolute;
     left: 0;
     right: 0;
+    top: 65px;
+    z-index: 10;
+    border: none;
+    outline: none;
+    width: 40%;
+    margin: auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.searchBar input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: var(--font-size-base);
+    padding: 12px 50px 12px 15px;
+    color: white;
+    background-color: var(--black);
 }
 
-.searchBar.open {
+.open {
     transform: translateY(0);
-    transition: transform 0.1s;
+    transition: transform 1s;
 }
 
 .searchBar input {
@@ -303,7 +320,8 @@ img {
 #SearchClose {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 6px;
     color: var(--gray-light);
-    padding: 15px;
+    padding: 5px;
+    cursor: pointer;
 }

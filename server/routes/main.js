@@ -79,7 +79,32 @@ router.get('/post/:id', async (req, res) => {
     }
 });
 
+// Get by Searching 
 
+router.post('/search', async (req, res) => {
+    const locals = {
+        title: 'search',
+        description: "Blogify is your way to tech Blogs"
+    }
+    try {
+        let searchTerm = req.body.searchTerm;
+        const searcNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9]/g,'');
+        const data = await Post.find({
+            $or:[
+                { title: { $regex:new RegExp(searcNoSpecialChar, 'i') }},
+                { body: { $regex:new RegExp(searcNoSpecialChar, 'i') }}
+            ]
+        });
+        res.render("search",{
+            data,
+            locals 
+        });
+
+    }
+    catch (e) {
+        console.log(e)
+    }
+});
 
 
 router.get('/about', (req, res) => {
