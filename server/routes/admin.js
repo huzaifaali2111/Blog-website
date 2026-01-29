@@ -1,12 +1,28 @@
 const express = require("express");
 const router = express.Router();
 const Post = require('../models/post');
-const User = require('../models/user'); 
+const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.jwtSecret;
-
 const adminLayout = "../views/layouts/admin";
+
+//Check Login 
+const authMiddleware = (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+        res.render('admin/index', { layout: adminLayout, message: "Please login first" });
+        return;
+    }
+    try {
+        const decoded = jwt.verify(token, jwtSecret);
+        req.userId = decoded.userId
+        next();
+    }
+    catch (e) {
+        return res.status(401).json({ message: "fuck You ! from catch " })
+    }
+}
 
 
 // Admin Login Page loading
@@ -25,8 +41,8 @@ router.get('/admin', async (req, res) => {
 
 // login authentication 
 router.post('/admin', async (req, res) => {
-     const { username, password } = req.body; 
-     
+    const { username, password } = req.body;
+
     try {
         const userFound = await User.findOne({
             username
@@ -53,7 +69,7 @@ router.post('/admin', async (req, res) => {
 
 
 
-router.get('/dashboard', async (req, res) => {
+router.get('/dashboard', authMiddleware, async (req, res) => {
     res.render('admin/dashboard');
 });
 
