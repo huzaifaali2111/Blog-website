@@ -58,7 +58,7 @@ textarea {
     background-color: var(--black);
     border: none;
     color: white;
-    padding: 16px 32px;
+    padding: 10px 21px;
     text-decoration: none;
     margin: 4px 2px;
     cursor: pointer;
@@ -324,4 +324,14 @@ img {
     color: var(--gray-light);
     padding: 5px;
     cursor: pointer;
+}
+.rig_btn{
+    float: right;
+    position: relative;
+    bottom: 39px;
+}
+.both_btn{
+    position: relative;
+    right: 0px;
+    left: 800px;
 }

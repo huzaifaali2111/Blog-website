@@ -16,7 +16,7 @@ const authMiddleware = (req, res, next) => {
     }
     try {
         const decoded = jwt.verify(token, jwtSecret);
-        req.userId = decoded.userId
+        req.userId = decoded.userId;
         next();
     }
     catch (e) {
@@ -67,13 +67,103 @@ router.post('/admin', async (req, res) => {
 });
 
 
-
+// Admin Dashboard
 
 router.get('/dashboard', authMiddleware, async (req, res) => {
-    res.render('admin/dashboard');
+    const locals = {
+        title: "dashboard",
+        description: "Blogify is your way to tech Blogs"
+    }
+    try {
+        const data = await Post.find();
+        res.render('admin/dashboard', { locals, data, layout: adminLayout });
+    } catch (e) {
+
+    }
+});
+
+// Admin-create New post page
+
+router.get('/add-post', authMiddleware, async (req, res) => {
+    const locals = {
+        title: "Add Post",
+        description: "Blogify is your way to tech Blogs"
+    }
+    try {
+        const data = await Post.find();
+        res.render('admin/add-post', {
+            locals,
+            layout: adminLayout
+        });
+    } catch (e) {
+
+    }
 });
 
 
+// Admin-edit the post 
+router.put('/edit-post/:id', authMiddleware, async (req, res) => {
+    try {
+        await Post.findByIdAndUpdate(req.params.id, {
+            title: req.body.title,
+            body: req.body.body,
+            updatedAt: Date.now()
+        });
+        res.redirect('/dashboard'); 
+    } catch (e) {
+        console.error("Update failed:", e);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+// Admin will get the-edit-post page
+router.get('/edit-post/:id', authMiddleware, async (req, res) => {
+    const locals = {
+        title: "Edit Post",
+        description: "Blogify is your way to tech Blogs"
+    }
+    try {
+        const data = await Post.findOne({_id: req.params.id});
+        res.render('admin/edit-post', {
+            locals,
+            data,
+            layout: adminLayout
+        });
+    } catch (e) {
+    }
+});
+
+//andmin-delete the post
+router.delete('/delete-post/:id', authMiddleware, async (req, res) => {
+    try {
+        await Post.findByIdAndDelete(req.params.id);   
+        res.redirect('/dashboard');
+    } catch (e) {
+        console.error("Delete failed:", e);
+        res.status(500).send("Server Error");
+    };
+});
+
+// Admin-save New post
+router.post('/add-post', authMiddleware, async (req, res) => {
+    try {
+
+        try {
+            const newpost = new Post({
+                title: req.body.title,
+                body: req.body.body,
+            });
+            await Post.create(newpost);
+            res.redirect('/dashboard');
+        } catch (error) {
+
+        }
+
+    } catch (e) {
+
+    }
+});
 
 
 
