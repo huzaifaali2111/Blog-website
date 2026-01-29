@@ -25,6 +25,10 @@ body {
 /* Global settings  */
 a {
     color: var(--black);
+    text-decoration: none;
+}
+a:hover{
+    scale: calc(1.01);
 }
 
 h1 {
@@ -119,10 +123,6 @@ img {
     font-weight: 800;
     font-size: 25px;
     text-decoration: none;
-}
-
-.header_logo:hover {
-    text-decoration: underline;
 }
 
 .header_nav {

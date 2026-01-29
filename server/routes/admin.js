@@ -83,7 +83,6 @@ router.get('/dashboard', authMiddleware, async (req, res) => {
 });
 
 // Admin-create New post page
-
 router.get('/add-post', authMiddleware, async (req, res) => {
     const locals = {
         title: "Add Post",
@@ -164,6 +163,13 @@ router.post('/add-post', authMiddleware, async (req, res) => {
 
     }
 });
+
+
+router.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/admin');
+});
+
 
 
 
