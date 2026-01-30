@@ -102,7 +102,10 @@ router.post('/search', async (req, res) => {
 
 
 router.get('/about', (req, res) => {
-    res.render('about', { status: req.query.status });
+    res.render('about');
+});
+router.get('/blog', (req, res) => {
+    res.render('blog');
 });
 
 router.get('/contact', (req, res) => {
