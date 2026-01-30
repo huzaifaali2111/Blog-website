@@ -1,4 +1,15 @@
 <h1>Blog Page </h1>
-<div>
-    
+<div class="blogs">
+    <% blogs.forEach(blog=> { %>
+        <a href="/post/<%= blog._id %>" class="blog-card">
+            <div >
+                <h3>
+                    <%= blog.title %>
+                </h3>
+                <p>
+                    <%= blog.body.split(' ').slice(0, 2).join(' ')%>
+                </p>
+            </div>
+        </a>
+        <% }); %>
 </div>

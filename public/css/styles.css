@@ -41,6 +41,10 @@ h2 {
 
 h3 {
     font-size: medium;
+    margin: 0px;
+}
+p{
+    margin: 0px;
 }
 
 input[type=text],
@@ -334,4 +338,24 @@ img {
     position: relative;
     right: 0px;
     left: 800px;
+}
+.blogs{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.blog-card:hover{
+    border: 2px solid var(--red);
+    scale: calc(1.02);
+    transition: scale 0.25s;
+    
+}
+.blog-card{
+    border: 2px solid var(--black);
+    display: flex;
+    width: 200px;
+    flex-direction: column;
+    padding: 10px;
+    cursor: pointer;
+
 }

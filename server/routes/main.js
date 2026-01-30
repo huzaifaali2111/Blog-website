@@ -104,9 +104,18 @@ router.post('/search', async (req, res) => {
 router.get('/about', (req, res) => {
     res.render('about');
 });
-router.get('/blog', (req, res) => {
-    res.render('blog');
+
+
+router.get('/blog', async (req, res) => {
+     try {
+        const blogs = await Post.find().sort({ createdAt: -1 });
+        res.render('blog', { blogs });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
+
 
 router.get('/contact', (req, res) => {
     res.render('contact');
@@ -146,18 +155,6 @@ router.post('/add-comment', async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).send('Error saving comment');
-    }
-});
-
-
-// Exporting Router to get comment on our page 
-router.get('/comments', async (req, res) => {
-    try {
-        const comments = await Comment.find().sort({ createdAt: -1 });
-        res.render('comments', { comments });
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Internal Server Error');
     }
 });
 
