@@ -21,6 +21,9 @@
 
 <div class="comments-section">
     <h3>Comments (<%= comments.length %>)</h3>
+  <%  if(comments.length === 0){ %>
+        <p>No comments yet. Be the first to comment!</p>        
+    <% } %>
     <% comments.forEach(comment => { %>
         <div class="comment">
             <p><%= comment.body %></p>

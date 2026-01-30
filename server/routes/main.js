@@ -78,8 +78,8 @@ router.post('/search', async (req, res) => {
         description: "Blogify is your way to tech Blogs"
     }
     try {
-        let searchTerm = req.body.searchTerm;
-        const searcNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9]/g, '');
+        let searchTerm = req.body.searchTerm.trim();
+        const searcNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9\s]/g, '');
         const data = await Post.find({
             $or: [
                 { title: { $regex: new RegExp(searcNoSpecialChar, 'i') } },
