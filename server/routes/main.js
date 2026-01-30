@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Post = require('../models/post');
 const Comment = require('../models/comments');
+const Contact = require('../models/contact');
 
 
 // Passing Current Path in Veriable
@@ -50,9 +51,9 @@ router.get('', async (req, res) => {
 router.get('/post/:id', async (req, res) => {
     try {
         let slug = req.params.id;
-        
-        const posts = await Post.findById(slug); 
-        
+
+        const posts = await Post.findById(slug);
+
         if (!posts) {
             return res.status(404).send("Post not found");
         }
@@ -108,20 +109,37 @@ router.get('/contact', (req, res) => {
     res.render('contact');
 });
 
+// Save Contact Form 
+router.post('/contact', async (req, res) => {
+    try {
+        const { name, email, comment } = req.body;
+        const newContact = new Contact({
+            name: name,
+            email: email,
+            comment: comment,
+        });
+        await newContact.save();
+        res.redirect(`/contact`);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Error saving comment');
+    }
+});
+
 
 
 
 //Comment Route to save in database
 router.post('/add-comment', async (req, res) => {
     try {
-        const { comment, postId } = req.body; 
+        const { comment, postId } = req.body;
         const newComment = new Comment({
             body: comment,
-            post: postId  
+            post: postId
         });
 
         await newComment.save();
-        res.redirect(`/post/${postId}`); 
+        res.redirect(`/post/${postId}`);
     } catch (err) {
         console.log(err);
         res.status(500).send('Error saving comment');
