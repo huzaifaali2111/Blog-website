@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Post = require('../models/post');
+const Comment = require('../models/comments');
 
 
 // Passing Current Path in Veriable
@@ -45,42 +46,32 @@ router.get('', async (req, res) => {
 
 });
 
-
-// Home getting Data from Database 
-// router.get('', async (req, res) => {
-//     const locals = {
-//         title: "Blogify Website",
-//         description: "Blogify is your way to tech Blogs"
-//     }
-//     try {
-//         const posts = await post.find();
-//         res.render('index', { locals, posts });
-//     }
-//     catch (e) {
-//         console.log(e)
-//     }
-// });
-
-
-
 // Single Post Page By ID 
 router.get('/post/:id', async (req, res) => {
     try {
         let slug = req.params.id;
-        const posts = await Post.findById({ _id: slug });
+        
+        const posts = await Post.findById(slug); 
+        
+        if (!posts) {
+            return res.status(404).send("Post not found");
+        }
+        const comments = await Comment.find({ post: slug }).sort({ createdAt: -1 });
+
         const locals = {
             title: posts.title,
             description: "Blogify is your way to tech Blogs"
         }
-        res.render('post', { locals, posts });
+        res.render('post', { locals, posts, comments });
     }
     catch (e) {
-        console.log(e)
+        console.log(e);
+        res.status(500).send("Internal Server Error");
     }
 });
 
-// Get by Searching 
 
+// Get by Searching 
 router.post('/search', async (req, res) => {
     const locals = {
         title: 'search',
@@ -88,16 +79,16 @@ router.post('/search', async (req, res) => {
     }
     try {
         let searchTerm = req.body.searchTerm;
-        const searcNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9]/g,'');
+        const searcNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9]/g, '');
         const data = await Post.find({
-            $or:[
-                { title: { $regex:new RegExp(searcNoSpecialChar, 'i') }},
-                { body: { $regex:new RegExp(searcNoSpecialChar, 'i') }}
+            $or: [
+                { title: { $regex: new RegExp(searcNoSpecialChar, 'i') } },
+                { body: { $regex: new RegExp(searcNoSpecialChar, 'i') } }
             ]
         });
-        res.render("search",{
+        res.render("search", {
             data,
-            locals, 
+            locals,
             searchTerm
         });
 
@@ -106,6 +97,7 @@ router.post('/search', async (req, res) => {
         console.log(e)
     }
 });
+
 
 
 router.get('/about', (req, res) => {
@@ -118,60 +110,41 @@ router.get('/contact', (req, res) => {
 
 
 
+
+//Comment Route to save in database
+router.post('/add-comment', async (req, res) => {
+    try {
+        const { comment, postId } = req.body; 
+        const newComment = new Comment({
+            body: comment,
+            post: postId  
+        });
+
+        await newComment.save();
+        res.redirect(`/post/${postId}`); 
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Error saving comment');
+    }
+});
+
+
+// Exporting Router to get comment on our page 
+router.get('/comments', async (req, res) => {
+    try {
+        const comments = await Comment.find().sort({ createdAt: -1 });
+        res.render('comments', { comments });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
+
 module.exports = router;
 
 
 
 
-// Have insert Some Dumy Blogs in Database Using this Function.
-
-
-// function insertPostData() {
-//     post.insertMany([
-//         {
-//             title: "Learn How to Make a Website",
-//             body: "It's always to Learn How to Make a Website in 2026 the latest year."
-//         },
-//         {
-//             title: "Building APIs with Node.js",
-//             body: "Learn how to use Node.js to build RESTful APIs using frameworks like Express.js"
-//         },
-//         {
-//             title: "Deployment of Node.js applications",
-//             body: "Understand the different ways to deploy your Node.js applications, including on-premises, cloud, and container environments..."
-//         },
-//         {
-//             title: "Authentication and Authorization in Node.js",
-//             body: "Learn how to add authentication and authorization to your Node.js web applications using Passport.js or other authentication libraries."
-//         },
-//         {
-//             title: "Understand how to work with MongoDB and Mongoose",
-//             body: "Understand how to work with MongoDB and Mongoose, an Object Data Modeling (ODM) library, in Node.js applications."
-//         },
-//         {
-//             title: "build real-time, event-driven applications in Node.js",
-//             body: "Socket.io: Learn how to use Socket.io to build real-time, event-driven applications in Node.js."
-//         },
-//         {
-//             title: "Discover how to use Express.js",
-//             body: "Discover how to use Express.js, a popular Node.js web framework, to build web applications."
-//         },
-//         {
-//             title: "Asynchronous Programming with Node.js",
-//             body: "Asynchronous Programming with Node.js: Explore the asynchronous nature of Node.js and how it allows for non-blocking I/O operations."
-//         },
-//         {
-//             title: "Learn the basics of Node.js and its architecture",
-//             body: "Learn the basics of Node.js and its architecture, how it works, and why it is popular among developers."
-//         },
-//         {
-//             title: "NodeJs Limiting Network Traffic",
-//             body: "Learn how to limit netowrk traffic."
-//         },
-//         {
-//             title: "Learn Morgan - HTTP Request logger for NodeJs",
-//             body: "Learn Morgan."
-//         },
-//     ])
-// }
-// insertPostData();

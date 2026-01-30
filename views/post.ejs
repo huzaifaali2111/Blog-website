@@ -1,5 +1,31 @@
 <a href="/"> &larr; Black</a>
-<h1><%= posts.title %></h1>
-<p><%= posts.body %></p>
-<span><%= posts.createdAt.toDateString() %></span>
-<span><%= posts.updatedAt.toDateString()  %></span>
+<h1>
+    <%= posts.title %>
+</h1>
+<p>
+    <%= posts.body %>
+</p>
+<span>
+    <%= posts.createdAt.toDateString() %>
+</span>
+<span>
+    <%= posts.updatedAt.toDateString() %>
+</span>
+
+<form action="/add-comment" method="POST">
+    <input type="hidden" name="postId" value="<%= posts._id %>">
+    <textarea name="comment" rows="4" cols="50" placeholder="Add your comment here..."></textarea>
+    <br>
+    <button type="submit" class="btn">Add Comment</button>
+</form>
+
+<div class="comments-section">
+    <h3>Comments (<%= comments.length %>)</h3>
+    <% comments.forEach(comment => { %>
+        <div class="comment">
+            <p><%= comment.body %></p>
+            <small><%= comment.createdAt.toDateString() %></small>
+        </div>
+    <% }) %>
+</div>
+
