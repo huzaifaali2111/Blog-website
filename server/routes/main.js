@@ -106,7 +106,7 @@ router.get('/about', (req, res) => {
     res.render('about');
 });
 
-
+// Blog Page and Pagination 
 router.get('/blog', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 12;
