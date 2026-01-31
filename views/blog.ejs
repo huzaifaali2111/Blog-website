@@ -2,7 +2,7 @@
 <div class="blogs">
     <% blogs.forEach(blog=> { %>
         <a href="/post/<%= blog._id %>" class="blog-card">
-            <div >
+            <div>
                 <h3>
                     <%= blog.title %>
                 </h3>
@@ -13,3 +13,17 @@
         </a>
         <% }); %>
 </div>
+<div class="pagination-controls">
+
+  <% if (pagination.hasPrevPage) { %>
+    <a href="/blog?page=<%= pagination.prevPage %>" class="btn">«</a>
+  <% } %>
+
+  <span>Page <%= pagination.page %> of <%= pagination.totalPages %></span>
+
+  <% if (pagination.hasNextPage) { %>
+    <a href="/blog?page=<%= pagination.nextPage %>" class="btn">»</a>
+  <% } %>
+</div>
+
+         

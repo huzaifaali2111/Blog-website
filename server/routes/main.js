@@ -3,6 +3,7 @@ const router = express.Router();
 const Post = require('../models/post');
 const Comment = require('../models/comments');
 const Contact = require('../models/contact');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 
 // Passing Current Path in Veriable
@@ -107,14 +108,28 @@ router.get('/about', (req, res) => {
 
 
 router.get('/blog', async (req, res) => {
-     try {
-        const blogs = await Post.find().sort({ createdAt: -1 });
-        res.render('blog', { blogs });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 12;
+    
+    const options = {
+        page: page,
+        limit: limit,
+        sort: { createdAt: -1 },
+        lean: true
+    };
+
+    try {
+        const result = await Post.paginate({}, options);
+        res.render('blog', { 
+            blogs: result.docs,      
+            pagination: result       
+        });
     } catch (error) {
         console.log(error);
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 
 router.get('/contact', (req, res) => {

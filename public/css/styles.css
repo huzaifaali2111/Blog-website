@@ -364,3 +364,9 @@ img {
     padding: 6px 10px;
     font-weight: 500;
 }
+.pagination-controls{
+    margin: auto;
+    margin-top: 50px;
+    height: 100px;
+    width: 315px;
+}
