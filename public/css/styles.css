@@ -359,3 +359,8 @@ img {
     cursor: pointer;
 
 }
+.admin_btn{
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-weight: 500;
+}

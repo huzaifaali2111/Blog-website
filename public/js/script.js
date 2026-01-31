@@ -1,4 +1,4 @@
-let searchBtn = document.querySelector('.header_Button');
+let searchBtn = document.querySelector('.searchBtn');
 let searchbar = document.querySelector('.searchBar');
 let closeBtn = document.getElementById('SearchClose');
 let searchinput = document.getElementById('searchInput');
