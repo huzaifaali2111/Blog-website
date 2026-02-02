@@ -41,18 +41,18 @@ router.get('/admin', async (req, res) => {
 
 // login authentication 
 router.post('/admin', async (req, res) => {
-    const { username, password } = req.body;
-
+    const username = req.body.username.trim();
+    const password = req.body.password.trim();
     try {
         const userFound = await User.findOne({
             username
         })
         if (!userFound) {
-            return res.status(401).json({ message: 'Something is invalid' });
+            return res.status(401).json({ message: 'user name issue' });
         }
         const isPasswordValid = await bcrypt.compare(password, userFound.password)
         if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Something is invalid' });
+            return res.status(401).json({ message: 'pasword' });
         }
         const token = jwt.sign({ userId: userFound._id }, jwtSecret)
         res.cookie('token', token, { httpOnly: true });
@@ -108,7 +108,7 @@ router.put('/edit-post/:id', authMiddleware, async (req, res) => {
             body: req.body.body,
             updatedAt: Date.now()
         });
-        res.redirect('/dashboard'); 
+        res.redirect('/dashboard');
     } catch (e) {
         console.error("Update failed:", e);
         res.status(500).send("Server Error");
@@ -123,7 +123,7 @@ router.get('/edit-post/:id', authMiddleware, async (req, res) => {
         description: "Blogify is your way to tech Blogs"
     }
     try {
-        const data = await Post.findOne({_id: req.params.id});
+        const data = await Post.findOne({ _id: req.params.id });
         res.render('admin/edit-post', {
             locals,
             data,
@@ -136,7 +136,7 @@ router.get('/edit-post/:id', authMiddleware, async (req, res) => {
 //andmin-delete the post
 router.delete('/delete-post/:id', authMiddleware, async (req, res) => {
     try {
-        await Post.findByIdAndDelete(req.params.id);   
+        await Post.findByIdAndDelete(req.params.id);
         res.redirect('/dashboard');
     } catch (e) {
         console.error("Delete failed:", e);
