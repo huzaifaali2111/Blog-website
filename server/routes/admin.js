@@ -11,7 +11,7 @@ const adminLayout = "../views/layouts/admin";
 const authMiddleware = (req, res, next) => {
     const token = req.cookies.token;
     if (!token) {
-        res.render('admin/index', { layout: adminLayout, message: "Please login first" });
+        res.redirect('/admin');
         return;
     }
     try {
@@ -21,6 +21,7 @@ const authMiddleware = (req, res, next) => {
     }
     catch (e) {
         return res.status(401).json({ message: "fuck You ! from catch " })
+        
     }
 }
 
@@ -193,6 +194,7 @@ router.get('/logout', (req, res) => {
 //         console.log(e)
 //     }
 // });
+
 
 
 
