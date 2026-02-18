@@ -8,7 +8,7 @@ const jwtSecret = process.env.jwtSecret;
 const adminLayout = "../views/layouts/admin";
 
 //Check Login 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = (req, res, next) => { 
     const token = req.cookies.token;
     if (!token) {
         res.redirect('/admin');
@@ -58,9 +58,6 @@ router.post('/admin', async (req, res) => {
         const token = jwt.sign({ userId: userFound._id }, jwtSecret)
         res.cookie('token', token, { httpOnly: true });
         res.redirect('/dashboard');
-
-
-
     }
     catch (e) {
         console.log(e)
